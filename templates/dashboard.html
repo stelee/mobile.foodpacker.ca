@@ -1,0 +1,25 @@
+<div id="dashBoardLeftContainer" class='col-md-4'>
+	<div id="datePickerContainer"></div>
+	<div id="chartContainer">
+		<svg id='summaryBalanceSheetChart' style='width:240px;height:240px'></svg>
+		<h4>Summary Balance Sheet</h4>
+	</div>
+</div>
+<div id="workspace" class="col-md-8">
+	<ul class="nav nav-tabs" role="tablist" id="reportTypeList">
+		<li class="active"><a href="#" id="tab" tab-index='0'>Exception Report Summary</a></li>
+		<li><a href="#" id='tab' tab-index='1'>Exception Trend</a></li>
+	</ul>
+	<div class="tab-content" id="reportContainer">
+		<div tab-index='0'>
+			<h3>Exception Report for <span id='reportDate'></span></h3>
+			<h4>Pre-Algo: Value Check Exception Reports</h4>
+			<div id="preAlgoReports"></div>
+			<h4>Post-Algo: Mapping Exception Reports</h4>
+			<div id="postAlgoReports"></div>
+		</div>
+		<div tab-index='1' class='hidden'>
+			<svg id='exceptionTrendChart' style='height:500px'></svg>
+		</div>
+	</div>
+</div>
