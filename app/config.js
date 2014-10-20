@@ -1,24 +1,25 @@
 //configuration of the app
 exports.appConfig=
 {
-	appName: "Exceptional Report",
-	appDescription: "Exceptional Report",
+	appName: "Foodpacker.ca",
+	appDescription: "Foodpacker//CA",
 	version : "0.1.0",
 	menus : [
-		["DashBoard","/"],
-		["Pre-Algo Reports","/pre-algo-reports/contract/","/pre-algo-reports/(.*)"],//0: menu name, 1: menu link, 2: menu href mapping(by default equals to 1)
-		["Post-Algo Reports","/post-algo-reports/liquidityBucket/","/post-algo-reports/(.*)"],
+		["Home","/"],
+		["Products","/products/categories/","/products/(.*)"],//0: menu name, 1: menu link, 2: menu href mapping(by default equals to 1)
+		["Shoping Cart","/cart/","/cart/(.*)"],
 		["About","/about"]
 	],
 	login: "/login",
-	appPath: "/public/"
+	appPath: "/"
 }
 
 //configuration of the router
 exports.routers={
 	"/" : "index",
-	"/pre-algo-reports/(.*)" : "preAlgoReports",
-	"/post-algo-reports/(.*)" : "postAlgoReports",
+	"/products/categories/(.*)" : "categories",
+	"/products/product/(.*)"	: "product",
+	"/cart/(.*)" : "cart",
 	"/about" : "about",
 	"/login" : "login"
 }
