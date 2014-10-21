@@ -6,7 +6,7 @@
 	//registration of the dependencies
 	//appconfig
 	injector.register("appConfig",config.appConfig);
-	injector.register("reportTypes",config.reportTypes);
+
 
 	//traits
 	injector.register("TraitsObjectStatusSupport",require("./libs/traits_object_status_support").traits);
@@ -32,6 +32,7 @@
 	injector.register("widgetManager",require("./libs/widget_manager").getInstance());
 	injector.register("eventManager",require("./libs/event_manager").getInstance());
 	injector.register("session",context.session);
+	injector.register("storage",context.storage);
 
 	//handy utils	
 	injector.register("HttpClient",require('./libs/http_client').HttpClient);
@@ -52,11 +53,6 @@
 	//Neo4j
 
 
-	//Business
-	injector.register("DashBoardReportBusiness",require("./business/dashboard_report_business").DashBoardReportBusiness);
-	injector.register("PreAlgoReportBusiness",require("./business/prealgo_report_business").PreAlgoReportBusiness);
-	injector.register("PostAlgoReportBusiness",require("./business/postalgo_report_business").PostAlgoReportBusiness);
-
 	//Services
-	injector.register("ReportService",require("./services/report_service").ReportService);
+	
 })()

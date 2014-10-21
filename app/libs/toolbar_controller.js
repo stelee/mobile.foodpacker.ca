@@ -7,11 +7,16 @@ ToolbarController.prototype.render=function(jqSearch)
 {
 	var $container=$(jqSearch);
 	$container.empty();
-	injector.process("widgetManager",function(widgetManager){
+	injector.process("widgetManager","storage",function(widgetManager,storage){
 		widgetManager.append($container,"dropdown",{
-			items: [{name: "International",code : "international"},{name: "United States", code: "us"}],
-			default: "international",
-			onSelect: function(code){console.log("code selected to " + code)}
+			items: [{name: "English",code : "en"},{name: "中文", code: "cn"}],
+			default: function(){
+				var ret=storage.getSystem('language') || 'en';
+				return ret;
+			},
+			onSelect: function(code){
+				storage.setSystem('language',code);
+			}
 		});
 	})
 }

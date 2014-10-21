@@ -5,6 +5,16 @@ var Dropdown=function(attrs){
 
 	var $ul=$('<ul class="dropdown-menu" role="menu">');
 	var defaultLink=null;
+	var defaultValue;
+	if('string' === typeof attrs.default){
+		defaultValue=attrs.default;
+	}else if('function' === typeof attrs.default)
+	{
+		defaultValue=attrs.default();
+	}else
+	{
+		defaultValue=attrs.items[0].code;
+	}
 
 	attrs.items.forEach(function(item){
 		var $li=$('<li>');
@@ -18,7 +28,7 @@ var Dropdown=function(attrs){
 				attrs.onSelect(item.code);
 			}
 		})
-		if(attrs.default ===  item.code)
+		if(defaultValue ===  item.code)
 		{
 			defaultLink=$link;
 		}

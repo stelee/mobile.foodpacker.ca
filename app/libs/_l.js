@@ -1,4 +1,7 @@
 var language="en" //this is the simple and multiple language ready
+injector.process("storage",function(storage){
+	language=storage.getSystem("language") || "en";
+})
 var languageMap=require('./i18n/'+language).map;
 exports.Lang=function()
 {
