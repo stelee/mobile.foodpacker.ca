@@ -91,7 +91,7 @@ body .tab-content {
   padding: 25px;
 }
 body .main {
-  padding: 40px 15px;
+  padding: 0px 0px;
 }
 body [role=form] {
   margin: 10px;

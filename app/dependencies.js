@@ -2,10 +2,15 @@
 	//config
 	var config=require("./config");
 	var router=require("./libs/router").getInstance(config.routers);
+	var loadBusiness=function(businessName,businessFile)
+	{
+		injector.register(businessName,require('./business/'+businessFile)[businessName]);
+	}
 
 	//registration of the dependencies
 	//appconfig
 	injector.register("appConfig",config.appConfig);
+	injector.register("language",require("./libs/_l").Lang);
 
 
 	//traits
@@ -34,6 +39,7 @@
 	injector.register("session",context.session);
 	injector.register("storage",context.storage);
 
+
 	//handy utils	
 	injector.register("HttpClient",require('./libs/http_client').HttpClient);
 	injector.register("loadBar",require("./libs/progress_bar").getInstance());
@@ -50,7 +56,8 @@
 	//report
 
 
-	//Neo4j
+	//business
+	loadBusiness('FeaturesBusiness','features_business');
 
 
 	//Services

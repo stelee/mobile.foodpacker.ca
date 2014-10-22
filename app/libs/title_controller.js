@@ -6,7 +6,7 @@ TitleController.prototype.render=function()
 {
 	var that=this;
 	injector.process("appConfig",function(appConfig){
-		that.$titleContainer.text(appConfig.appName);
+		that.$titleContainer.text(_l(appConfig.appName));
 	});
 }
 

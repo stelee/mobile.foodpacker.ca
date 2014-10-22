@@ -7,7 +7,7 @@ exports.appConfig=
 	menus : [
 		["Home","/"],
 		["Products","/products/categories/","/products/(.*)"],//0: menu name, 1: menu link, 2: menu href mapping(by default equals to 1)
-		["Shoping Cart","/cart/","/cart/(.*)"],
+		["Shopping Cart","/cart/","/cart/(.*)"],
 		["About","/about"]
 	],
 	login: "/login",

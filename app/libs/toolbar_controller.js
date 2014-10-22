@@ -7,7 +7,7 @@ ToolbarController.prototype.render=function(jqSearch)
 {
 	var $container=$(jqSearch);
 	$container.empty();
-	injector.process("widgetManager","storage",function(widgetManager,storage){
+	injector.process("widgetManager","storage","eventManager",function(widgetManager,storage,eventManager){
 		widgetManager.append($container,"dropdown",{
 			items: [{name: "English",code : "en"},{name: "中文", code: "cn"}],
 			default: function(){
@@ -16,6 +16,16 @@ ToolbarController.prototype.render=function(jqSearch)
 			},
 			onSelect: function(code){
 				storage.setSystem('language',code);
+				if(eventManager.hasBind(document,"Change-Language"))
+				{
+					eventManager.trigger(document,"Change-Language");
+				}else
+				{
+					eventManager.bind(document,"Change-Language",function(){
+						location.reload();
+					})
+				}
+				//location.reload();
 			}
 		});
 	})

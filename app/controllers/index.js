@@ -10,7 +10,10 @@ injector.process("BaseController",function(BaseController)
 Index.prototype.render=function(){
 	var that=this;
 	that.getBody().empty();
-	
+	injector.process("@featuresBusiness",function(featuresBusiness){
+		featuresBusiness.appendTo(that.getBody());
+	})
+
 }
 
 

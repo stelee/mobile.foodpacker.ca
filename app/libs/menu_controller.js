@@ -11,7 +11,7 @@ MenuController.prototype.render=function(){
 			that.$menuBar.empty();
 			appConfig.menus.forEach(function(menu){
 				var url=locationService.createURL(menu[1]);
-				that.$menuBar.append("<li><a href='" + url + "'>" + menu[0] + "</a></li>");
+				that.$menuBar.append("<li><a href='" + url + "'>" + _l(menu[0]) + "</a></li>");
 			})
 			that.$menuBar.children(":first").addClass("active");
 		}

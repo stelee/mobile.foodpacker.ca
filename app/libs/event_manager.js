@@ -39,6 +39,23 @@ EventManager.prototype.unbind=function(scope,eventName)
 	this.eventMap[scope][eventName]=[];
 }
 
+EventManager.prototype.hasBind=function(scope,eventName)
+{
+	if(!!!this.eventMap[scope])
+	{
+		this.eventMap[scope]={};
+	}
+	if(typeof this.eventMap[scope][eventName] === "undefined" ||
+		this.eventMap[scope][eventName] === null ||
+		this.eventMap[scope][eventName].length === 0)
+	{
+		return false;
+	}else
+	{
+		return true;
+	}
+}
+
 EventManager.prototype.trigger=function(scope,eventName,parameters)
 {
 	if(!!!this.eventMap[scope])

@@ -6,6 +6,7 @@ Dispatcher.prototype.redirect=function(path)
 }
 Dispatcher.prototype.dispatch=function(controllerDef)
 {
+
 	var controllerName=controllerDef;
 	var args=[];
 	if(typeof controllerDef === "object")
