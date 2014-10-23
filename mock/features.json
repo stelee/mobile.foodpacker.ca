@@ -1,0 +1,5 @@
+[
+{"product_id": 1, "image_url" : "/mock/assets/1.jpg"},
+{"product_id": 2, "image_url" : "/mock/assets/2.jpg"},
+{"product_id": 3, "image_url" : "/mock/assets/3.jpg"}
+]

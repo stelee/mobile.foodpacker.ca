@@ -6,6 +6,10 @@
 	{
 		injector.register(businessName,require('./business/'+businessFile)[businessName]);
 	}
+	var loadService=function(serviceName,serviceFile)
+	{
+		injector.register(serviceName,require('./services/'+serviceFile).getInstance());
+	}
 
 	//registration of the dependencies
 	//appconfig
@@ -61,5 +65,6 @@
 
 
 	//Services
+	loadService("productService","product_service");
 	
 })()
