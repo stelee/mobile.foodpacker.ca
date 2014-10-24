@@ -128,3 +128,34 @@ body .features-tile {
   background-repeat: no-repeat;
   background-size: cover;
 }
+body .quickLaunch ul {
+  width: 180px;
+  float: right;
+}
+body .quickLaunch ul li {
+  width: 64px;
+  height: 64px;
+  line-height: 64px;
+  float: left;
+  list-style-type: none;
+  text-align: center;
+  margin: 1px;
+}
+body .quickLaunch ul li div {
+  margin: auto;
+}
+body .quickLaunch ul li div a {
+  color: white;
+}
+body .quickLaunch ul li.orange {
+  background-color: #ff9900;
+}
+body .quickLaunch ul li.green {
+  background-color: #99cc62;
+}
+body .quickLaunch ul li.grey {
+  background-color: #666666;
+}
+body .quickLaunch ul li.blue {
+  background-color: #0191c8;
+}

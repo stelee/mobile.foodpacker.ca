@@ -12,15 +12,15 @@ Index.prototype.render=function(){
 	var $body=this.getBody();
 	$body.empty();
 	injector.process("@featuresBusiness","widgetManager",function(featuresBusiness,widgetManager){
+		debugger;
 		featuresBusiness.appendTo($body);
 		widgetManager.append($body,"quickLaunch",{
 			items: [
-				{name: "Cook", url: "/#!/products/categories/1"},
-				{name: "Promotion", url: "/#!/products/promotion"},
-				{name: "View",url: "/#!/products/categories"},
-				{name: "Contact",url: "/#!/about"}
-			],
-			x: 2
+				{name: "Cook", url: "/#!/products/categories/1",bgColorClass: 'orange'},
+				{name: "Promotion", url: "/#!/products/promotion",bgColorClass: 'green'},
+				{name: "View",url: "/#!/products/categories",bgColorClass: 'blue'},
+				{name: "Contact",url: "/#!/about",bgColorClass: 'grey'}
+			]
 		})
 	})
 }
