@@ -18,7 +18,7 @@
 
 
 	//traits
-	injector.register("TraitsObjectStatusSupport",require("./libs/traits_object_status_support").traits);
+	//injector.register("TraitsObjectStatusSupport",require("./libs/traits_object_status_support").traits);
 
 	//core service
 	injector.register("routerService",router);

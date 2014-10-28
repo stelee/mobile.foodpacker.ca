@@ -9,20 +9,12 @@ var Service=function()
 		that.HttpClient=HttpClient;
 	})
 }
-injector.process("TraitsObjectStatusSupport",function(traits){
-  mixin(Service,traits);
-});
 
 Service.prototype.getFeatures=function()
 {
 	var that=this;
-	var client=new this.HttpClient(features_service_url)
-	client.get().then(function(data){
-		that._setStatusSuccess(data);
-	}).catch(function(e){
-		that._setStatusFailed(e);
-	})
-	return this;
+	var client=new this.HttpClient(features_service_url);
+	return client.get();
 }
 
 exports.getInstance=function()

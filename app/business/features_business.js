@@ -6,14 +6,13 @@ FeaturesBusiness.prototype.appendTo=function($container)
 {
 	var $featuresContainer=$("<div>");
 	injector.process('productService',function(pService){
-		pService.getFeatures().success(function(data){
+		pService.getFeatures().then(function(data){
 			data.forEach(function(item){
-
 				var $div=$("<div style='background-image:url(" + item['image_url'] + ")' class='features-tile'>");
 
 				$featuresContainer.append($div);
 			})
-		}).failed(function(e){
+		}).catch(function(e){
 			console.error(e);
 		});
 	})

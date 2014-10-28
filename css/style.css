@@ -159,3 +159,10 @@ body .quickLaunch ul li.grey {
 body .quickLaunch ul li.blue {
   background-color: #0191c8;
 }
+body .infoBoard {
+  float: left;
+  font-size: 24px;
+  padding: 10px;
+  text-align: center;
+  color: green;
+}
