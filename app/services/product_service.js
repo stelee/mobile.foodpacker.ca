@@ -1,5 +1,6 @@
 //product service
 var features_service_url= '/mock/features.json';
+var categories_service_url= '/mock/categories.json';
 
 var Service=function()
 {
@@ -14,6 +15,13 @@ Service.prototype.getFeatures=function()
 {
 	var that=this;
 	var client=new this.HttpClient(features_service_url);
+	return client.get();
+}
+
+Service.prototype.getCategories=function()
+{
+	var that=this;
+	var client=new this.HttpClient(categories_service_url);
 	return client.get();
 }
 

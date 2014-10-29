@@ -1,32 +1,23 @@
-var Index=function(){
+//categoriesController
+var Ctrl=function(){
 
 }
 
 injector.process("BaseController",function(BaseController)
 {
-	Index.prototype=new BaseController();
+	Ctrl.prototype=new BaseController();
 })
 
-Index.prototype.render=function(){
+Ctrl.prototype.render=function(params)
+{
 	var that=this;
 	var $body=this.getBody();
 	$body.empty();
-	injector.process("@featuresBusiness","@categoriesBusiness","widgetManager",function(featuresBusiness,categoriesBusiness,widgetManager){
-		featuresBusiness.appendTo($body);
-		// widgetManager.append($body,"board",{
-		// 	content : _l("Welcome to visit foodpacker.ca!"),
-		// 	width: "100%"
-		// });
-		widgetManager.append($body,"quickLaunch",{
-			items: [
-				{name: "Cook", url: "/#!/products/categories/1",bgColorClass: 'orange'},
-				{name: "Promotion", url: "/#!/products/promotion",bgColorClass: 'green'},
-				{name: "View",url: "/#!/products/categories",bgColorClass: 'blue'},
-				{name: "Contact",url: "/#!/about",bgColorClass: 'grey'}
-			]
-		});
-		widgetManager.append($body,"clearBar");
+	
+	injector.process("@categoriesBusiness","widgetManager",function(categoriesBusiness,widgetManager){
+		//show the all list of the params
 		categoriesBusiness.list().then(function(data){
+			//TODO: not append to body, append to slide toggle
 			widgetManager.append($body,"listGroup",{
 				items: data,
 				renderItem: function(item)
@@ -45,10 +36,10 @@ Index.prototype.render=function(){
 				}
 			});
 		})
-	})
+		//show the product list of special category based on the params
+	});
 }
 
-
 exports.getInstance=function(){
-	return new Index();
+	return new Ctrl();
 }
