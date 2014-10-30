@@ -11,7 +11,7 @@ TemplateManager.prototype.render=function(templateName,data)
 {
 	var ret="";
 	injector.process("hoganTemplates",function(templates){
-		ret= templates[templateName].r(data);
+		ret= templates[templateName].render(data);
 	})
 	return ret;
 }

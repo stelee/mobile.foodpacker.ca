@@ -1,6 +1,11 @@
 exports.render=function(attrs)
 {
-	var $ret=$("<div class='list-group'>");
+	var style=attrs.style || "";
+	if(style != "")
+	{
+		style = " style='" + style + "' ";
+	}
+	var $ret=$("<div class='list-group'" + style + ">");
 	var renderItem=attrs.renderItem || function(item){
 		return item.name;
 	}

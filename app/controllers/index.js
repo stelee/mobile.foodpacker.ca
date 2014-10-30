@@ -21,7 +21,7 @@ Index.prototype.render=function(){
 			items: [
 				{name: "Cook", url: "/#!/products/categories/1",bgColorClass: 'orange'},
 				{name: "Promotion", url: "/#!/products/promotion",bgColorClass: 'green'},
-				{name: "View",url: "/#!/products/categories",bgColorClass: 'blue'},
+				{name: "View",url: "/#!/products/categories/",bgColorClass: 'blue'},
 				{name: "Contact",url: "/#!/about",bgColorClass: 'grey'}
 			]
 		});

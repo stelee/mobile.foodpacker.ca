@@ -63,6 +63,7 @@
 	//business
 	loadBusiness('FeaturesBusiness','features_business');
 	loadBusiness('CategoriesBusiness','categories_business');
+	loadBusiness('ProductsBusiness','products_business');
 
 
 	//Services

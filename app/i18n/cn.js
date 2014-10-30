@@ -9,5 +9,6 @@ exports.map={
 	"Promotion" : "推荐",
 	"View" : "浏览",
 	"Contact" : "联系",
-	"Welcome to visit foodpacker.ca!" : "欢迎访问福派配菜，美味从网络开始!"
+	"Welcome to visit foodpacker.ca!" : "欢迎访问福派配菜，美味从网络开始!",
+	"Choose the category" : "选择产品类别"
 }

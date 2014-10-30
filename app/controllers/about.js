@@ -11,7 +11,10 @@ About.prototype.render=function(){
 	var that=this;
 	this.getBody().empty();
 	injector.process('templateManager',function(templateManager){
-		that.getBody().append(templateManager.render("about"));
+		that.getBody().append(templateManager.render("about",{
+			name: 'about us',
+			description : "welcome"
+		}));
 	})
 }
 

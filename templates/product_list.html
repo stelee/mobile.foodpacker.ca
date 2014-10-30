@@ -1,0 +1,15 @@
+<div class='list-group'>
+	{{test}}
+	{{#products}}
+	<a href='#!/products/product/{{id}}' class='list-group-item'>
+		<div class="pull-left" style="padding-right: 15px;">
+			<img src="{{image_url}}" width="64px" height="64px">
+		</div>
+		<div class="media-body">
+			<h4 class="list-group-item-heading">{{name}}</h4>
+			<p class="list-group-item-text">{{description}}</p>
+		</div>
+		<div style="clear:both"></div>
+	</a>
+	{{/products}}
+</div>
