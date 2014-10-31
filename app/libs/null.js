@@ -12,7 +12,11 @@ var isNull=function(obj){
 
 var isEmpty=function(obj)
 {
-	if(JSON.stringify(obj) === '{}')
+	if(typeof obj === 'string' && obj === "")
+    {
+        return true;
+    }
+    if(JSON.stringify(obj) === '{}')
 	{
 		return true;
 	}

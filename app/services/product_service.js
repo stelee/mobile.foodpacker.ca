@@ -2,6 +2,8 @@
 var features_service_url= '/mock/features.json';
 var categories_service_url= '/mock/categories.json';
 var products_service_url= '/mock/products.json';
+var product_service_url='/mock/product.json';
+
 
 var Service=function()
 {
@@ -30,6 +32,12 @@ Service.prototype.getProducts=function(categoryId)
 {
 	var client=new this.HttpClient(products_service_url);
 	return client.get({categoryId: categoryId});
+}
+
+Service.prototype.getProduct=function(productId)
+{
+	var client=new this.HttpClient(product_service_url);
+	return client.get({productId: productId});
 }
 
 exports.getInstance=function()

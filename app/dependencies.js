@@ -57,7 +57,8 @@
 	injector.register("dateUtils",require("./libs/date_utils"));
 	injector.register("stringUtils",require("./libs/string_utils").stringUtils);
 
-	//report
+	//shopping cart
+	injector.register("Cart",require("./libs/cart"));
 
 
 	//business

@@ -1,0 +1,13 @@
+{
+	"name" : "Black Pepper Ribs(Beef Marinated 2-4 persons)",
+	"product_id" : "330",
+	"stock" : 7,
+	"price" : 6.99,
+	"currency" :  "CAD",
+	"cover" : "/mock/assets/beef0.jpg",
+	"images" : [
+		"/mock/assets/beef0.jpg",
+		"mock/assets/beef.jpg"
+	],
+	"description" : "Black Pepper Ribs (marinated processed good)  Material: Ribs, onion, red chilli,, garlic, soy sauce, soy sauce, oil, cornstarch, water, salt, MSG, sugar, black pepper, barbeque sauce.  Gravy approach: a teaspoon of soy sauce, oyster sauce and a half tablespoons of sugar and a half teaspoon, half teaspoon cornstarch, water and a half tablespoon.  1 First Ribs add soy sauce, oil, cornstarch, water, sugar, black pepper, mix well and marinate for 2 hours;  2 large fire pot boiling oil, add the marinated beef short-ribs slightly fried;  3 saute garlic and onion, red chilli into the pot, fry 1-2 minutes, then add beef and fry over medium heat for about 3 minutes, add black pepper and half a teaspoon of sand tea fry sauce evenly, then the next gravy, if that is not enough according to personal taste flavor seasoning, dish up dish can be eaten.  ps: fried time not too long, otherwise the old beef easily."
+}

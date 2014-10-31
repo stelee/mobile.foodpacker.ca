@@ -1,0 +1,46 @@
+<button type="button" class="btn btn-primary"  onclick='javascript: history.back()'>{{back_text}}</button>
+</button>
+<div id='product'>
+	<h3>{{name}}</h3>
+	<center>
+		<img src='{{cover}}' class="img-responsive" id="product_cover"/>
+	</center>
+	<div class='list-group-item  panel'>
+		{{#images}}
+			<img src='{{.}}' width='64px' height='64px' class='coverChangeBtn'/>
+		{{/images}}
+	</div>
+	<div class='list-group-item panel panel-primary'>
+		<div class="input-group">
+	      <input type="number" class="form-control" placeholder="{{qty_text}}" value="1" id='qtyInput'>
+	      <span class="input-group-btn">
+	        <button class="btn btn-default" type="button" id='buyBtn'>{{buy_text}}</button>
+	      </span>
+	    </div><!-- /input-group -->
+	</div>
+
+	<div class='list-group-item panel panel-primary'>
+		<div class='panel-heading'>
+			{{price_text}}
+		</div>
+		<div class='panel-body'>
+			{{price}} {{currency}}
+		</div>
+	</div>
+	<div class='list-group-item panel panel-primary'>
+		<div class='panel-heading'>
+			{{stock_text}}
+		</div>
+		<div class='panel-body'>
+			{{stock}}
+		</div>
+	</div>
+	<div class='list-group-item panel panel-primary'>
+		<div class='panel-heading'>
+			{{description_text}}
+		</div>
+		<div class='panel-body'>
+			{{description}}
+		</div>
+	</div>
+</div>
