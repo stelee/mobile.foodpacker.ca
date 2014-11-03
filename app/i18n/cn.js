@@ -18,5 +18,10 @@ exports.map={
 	"Qty" : "数量",
 	"< Go back" : "< 返回",
 	"Product Name" : "名称",
-	"Unit Price" : "单价"
+	"Unit Price" : "单价",
+	"Refresh" : "刷新",
+	"Checkout" : "结帐",
+	"Back" : "返回",
+	"Are you sure to delete the item?" : "你确定要删除这一项？",
+	"Not a valid number" : "不是一个有效的数字"
 }

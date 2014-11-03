@@ -18,12 +18,41 @@ Cart.prototype.getItems=function(){
 			name: entity.product.name,
 			qty: entity.qty,
 			unit_price: entity.product.price,
-			currency: entity.product.currency
+			currency: entity.product.currency,
+			cover: entity.product.cover
 		};
 
 		itemArray.push(obj);
 	}
 	return itemArray;
+}
+
+Cart.prototype.updateQty=function(productId, qty)
+{
+	for(key in this.data)
+	{
+		var entity=this.data[key];
+		if(String(entity.product.product_id) === String(productId))
+		{
+			entity.qty=qty;
+			this.storage.set("cart",this.data);
+			return;
+		}
+	}
+}
+
+Cart.prototype.delete=function(productId)
+{
+	for(key in this.data)
+	{
+		var entity=this.data[key];
+		if(String(entity.product.product_id) === String(productId))
+		{
+			delete this.data[key];
+			this.storage.set("cart",this.data);
+			return;
+		}
+	}
 }
 
 Cart.prototype.put=function(product,newQty)

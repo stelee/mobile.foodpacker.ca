@@ -1,18 +1,22 @@
 <div id="cart" style="margin-top: 45px;">
-	<div class="table-responsive">
-	  <table class="table">
-	    <tr>
-	    	<th>{{product_name_text}}</th>
-	    	<th>{{unit_price_text}}</th>
-	    	<th>{{qty_text}}</th>
-	    </tr>
-	    {{#items}}
-	    <tr>
-	    	<td>{{name}}</td>
-	    	<td>{{unit_price}} {{currency}}</td>
-	    	<td>{{qty}}</td>
-	    </tr>
-	    {{/items}}
-	  </table>
+	{{#items}}
+	<div class="panel panel-primary">
+		<div  class="panel-heading">{{name}}</div>
+		<div class="panel-body">
+			<img src='{{cover}}' width="64px" height="64px"/>
+			{{unit_price}} {{currency}}
+			<input type="number" name="quantity" value='{{qty}}'  maxlength="4" size="4" class='qtyInput' data-productId='{{product_id}}'/> 
+			<a href="javascript:void(0)" class='deleteLink' data-productId='{{product_id}}'>
+				<span class='glyphicon glyphicon-trash myicon'></span>
+			</a>
+		</div>
+	</div>
+	{{/items}}
+	<div class="quickLaunch">
+		<ul>
+			<li class="orange"><div><a href="#!/cart/" id='refreshBtn'>{{refresh_text}}</a></div></li>
+			<li class="blue"><div><a href="#!/cart/" id='checkoutBtn'>{{checkout_text}}</a></div></li>
+			<li class="green"><div><a href="javascript:history.back()">{{back_text}}</a></div></li>
+		</ul>
 	</div>
 </div>
