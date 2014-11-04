@@ -5,13 +5,16 @@
 		<div class="panel-body">
 			<img src='{{cover}}' width="64px" height="64px"/>
 			{{unit_price}} {{currency}}
-			<input type="number" name="quantity" value='{{qty}}'  maxlength="4" size="4" class='qtyInput' data-productId='{{product_id}}'/> 
+			<input type="number" name="quantity" value='{{qty}}'  maxlength="4" size="4" class='qtyInput' data-productId='{{product_id}}' data-unitprice='{{unit_price}}'/> 
 			<a href="javascript:void(0)" class='deleteLink' data-productId='{{product_id}}'>
 				<span class='glyphicon glyphicon-trash myicon'></span>
 			</a>
 		</div>
 	</div>
 	{{/items}}
+	<div>
+		{{total_text}} <span id='total_price'>0</span> CAD
+	</div>
 	<div class="quickLaunch">
 		<ul>
 			<li class="orange"><div><a href="#!/cart/" id='refreshBtn'>{{refresh_text}}</a></div></li>

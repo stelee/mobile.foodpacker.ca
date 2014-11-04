@@ -1,6 +1,6 @@
 var language=null //this is the simple and multiple language ready
 var languageMap=null;
-exports.Lang=function()
+var Lang=function()
 {
 	if(language === null)
 	{
@@ -23,3 +23,10 @@ exports.Lang=function()
 	}
 	return ret.join(" ");
 }
+var prepare=function(dataMap,key,value)
+{
+	dataMap[key]=Lang(value);
+}
+
+exports.Lang=Lang;
+exports.prepare=prepare;

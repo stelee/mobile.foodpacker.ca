@@ -1,0 +1,39 @@
+<div id='checkout' style='margin-top:48px;'>
+	<!-- Get the location of the delivery-->
+	<div class="panel panel-primary">
+		<div  class="panel-heading">Location/Address</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label for="locationType" class="col-sm-2 control-label">{{location_type_text}}</label>
+				<div class="col-sm-10">
+					<select class="form-control" name="locationType" id="locationType">
+						<option value='new'>{{new_address_text}}</option>
+						<option value='auto'>{{my_current_address_text}}</option>
+					</select>
+			    </div>
+			</div>
+			
+			<div id='address_form'>
+				
+			</div>
+		</div>
+	</div>
+	<!-- Payment information -->
+	<div class="panel panel-primary">
+		<div  class="panel-heading">Payment Information</div>
+		<div class="panel-body">
+			<span class="help-block"><span class='glyphicon glyphicon-info-sign' style='color: orange'></span> {{security_info_text}}</span>
+			<div id='payment_form'>
+			</div>
+		</div>
+	</div>
+	<!-- Quick lauch and the button -->
+	<div class="quickLaunch">
+		<ul>
+			<li class="orange"><div><a href="#!/cart/">{{cart_text}}</a></div></li>
+			<li class="blue"><div><a href="#!/cart/" id='doCheckoutBtn'>{{submit_text}}</a></div></li>
+			<li class="green"><div><a href="javascript:history.back()">{{back_text}}</a></div></li>
+			<li class="grey"><div><a href="tel:+15148554900"><span class="glyphicon glyphicon-phone-alt" style="color:white"></span></a></div></li>
+		</ul>
+	</div>
+</div>

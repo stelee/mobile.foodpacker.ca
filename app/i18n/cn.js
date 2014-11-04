@@ -23,5 +23,13 @@ exports.map={
 	"Checkout" : "结帐",
 	"Back" : "返回",
 	"Are you sure to delete the item?" : "你确定要删除这一项？",
-	"Not a valid number" : "不是一个有效的数字"
+	"Not a valid number" : "不是一个有效的数字",
+	"Your shopping cart is still empty": "您的购物车是空的",
+	"Total" : "总共",
+	"Location Type" : "送货地址类型",
+	"New Address" : "新地址",
+	"My Current Address" : "我当前位置",
+	"The credit card information will be stored in your local device and will be protected by PIN number that you set" : "信用卡信息将会保存在本地，并需要您设置PIN码给以保护",
+	"Cart" : "购物车",
+	"Submit" : "提交"
 }
