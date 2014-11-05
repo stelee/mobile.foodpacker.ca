@@ -176,3 +176,6 @@ body .myicon {
   font-size: 24px;
   top: 6px;
 }
+body .btn {
+  margin: 2px;
+}

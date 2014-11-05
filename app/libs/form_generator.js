@@ -13,6 +13,11 @@ var Generator=function()
 	})
 }
 
+Generator.prototype.getSubmitBtnText=function()
+{
+	return "Submit";
+}
+
 Generator.prototype.bind=function(identifier, fn)
 {
 	if(identifier === "verified")
@@ -49,7 +54,7 @@ Generator.prototype.generate=function()
 		}
 		this.widgetManager.append($form,field.type,field);
 	}
-	this.widgetManager.append($form,"button",{code : "submit",type: "submit",onclick:function(){
+	this.widgetManager.append($form,"button",{label:that.getSubmitBtnText(),code : "submit",type: "submit",onclick:function(){
 		var validator=that.formValidator;
 		var notifier=that.notifier;
 

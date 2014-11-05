@@ -42,34 +42,126 @@ Cart.prototype.render_checkout=function()
 		prepare(data,"back_text","Back");
 
 		that.getBody().append(templateManager.render("checkout",data));
+		that.buildAddressPanel();
 
+	})
+}
+
+Cart.prototype.buildAddressPanel=function()
+{
+	var that=this;
+	//add option for address option
+	injector.process("AddressBook",function(AddressBook){
+		var ab=AddressBook.getOnlyInstance();
+		var items=ab.getItems();
+		items.forEach(function(item,index){
+			$("#locationType").append("<option value='"+index+"'> " + item.name + "</option>")
+		});
+		$("#locationType").on("change",function(){
+			var val=$(this).val();
+			if(val==="new")
+			{
+				that.showAddressForm();
+			}else if(val ==="auto")
+			{
+				that.showCurrentLocation()//auto detect the location
+			}else
+			{
+				that.showAddressForm(items[val]);
+			}
+		})
+	});	
+	that.showAddressForm();
+}
+Cart.prototype.showCurrentLocation=function()
+{
+	navigator.geolocation.getCurrentPosition(function(position){
+		var latitude=position.coords.latitude;
+		var longitude=position.coords.longitude;
 		var $address_form=$("#address_form");
+		$address_form.empty();
+		$address_form.append('<center><iframe width="240" height="240" frameborder="0" style="border:0"\
+src="https://www.google.com/maps/embed/v1/place?zoom=12&q=loc:' + latitude +'+' + longitude + '&key=AIzaSyAmltswG-ygaXzheglI-yodGtAoAwUs5c0"></iframe></center>');
+	});
+}
+
+Cart.prototype.showAddressForm=function(data)
+{
+	data=data || {};
+	injector.process('FormGenerator','AddressBook','notifier',
+	function(FormGen,AddressBook,notifier){
+		var formGen=FormGen.getInstance();
+		var $address_form=$("#address_form");
+		$address_form.empty();
+		formGen.getSubmitBtnText=function()
+		{
+			return " <span class='glyphicon glyphicon-floppy-disk myicon'></span> ";
+		};
+		formGen.onVerified=function(data)
+		{
+			var that=this;
+			injector.process("AddressBook",function(AddressBook){
+				var ab=AddressBook.getOnlyInstance();
+				ab.put(data);
+				that.notifier.success(_l("Saved successfully"));
+			})
+		};
 		formGen.generate({
-			label: "Steet Line 1",
+			label: _l("Address Name(home, work,etc)"),
 			type: "input",
-			code: "addressline1"	
+			code: "name",
+			value: data.name
 		},{
-			label: "Steet Line 2",
+			label: _l("Steet Line 1"),
 			type: "input",
-			code: "addressline2"	
+			code: "addressline1",
+			required: "required",
+			value: data.addressline1
+		},{
+			label: _l("Steet Line 2"),
+			type: "input",
+			code: "addressline2",
+			value: data.addressline2
 		},
 		{
-			label: "City",
+			label: _l("City"),
 			type: "input",
-			code: "city"	
+			code: "city",
+			required: "required",
+			value: data.city
 		},
 		{
-			label: "Province",
+			label: _l("Province"),
 			type: "input",
-			code: "province"	
+			code: "province",
+			required: "required",
+			value: data.province
 		},
 		{
-			label: "Postalcode",
+			label: _l("Postalcode"),
 			type: "input",
-			code: "postalcode"	
+			code: "postalcode",
+			required: "required",
+			value: data.postalcode	
+		},
+		{
+			label: ' <span class="glyphicon glyphicon-trash myicon"></span> ',
+			type: "button",
+			onclick:function(){
+				var index=$("#locationType").val();
+				if(index === "new" || index === "auto")
+				{
+					return;//do nothing
+				}else
+				{
+					notifier.confirm(_l("Are you sure to delete the item?"),function(){
+						AddressBook.getOnlyInstance().removeByIndex(index);
+						window.location.reload();
+					});
+				}
+			}
 		}
 		).appendTo($address_form);
-
 	});
 }
 

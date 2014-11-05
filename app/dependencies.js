@@ -58,7 +58,8 @@
 	injector.register("stringUtils",require("./libs/string_utils").stringUtils);
 
 	//shopping cart
-	injector.register("Cart",require("./libs/cart"));
+	injector.register("Cart",require("./entities/cart"));
+	injector.register("AddressBook",require("./entities/address_book"));
 
 
 	//business
