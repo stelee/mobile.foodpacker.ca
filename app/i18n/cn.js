@@ -29,7 +29,7 @@ exports.map={
 	"Location Type" : "送货地址类型",
 	"New Address" : "新地址",
 	"My Current Address" : "我当前位置",
-	"The credit card information will be stored in your local device and will be protected by PIN number that you set" : "信用卡信息将会保存在本地，并需要您设置PIN码给以保护",
+	"The credit card information will be stored in your local device and will be protected by cvv2 of your card" : "信用卡信息将会保存在本地，每次交易的时候需要输入安全码（cvv2）",
 	"Cart" : "购物车",
 	"Submit" : "提交",
 	"Save current address" : "保存当前地址",
@@ -39,5 +39,13 @@ exports.map={
 	"City" : "城市",
 	"Province" : "省份",
 	"Postalcode" : "邮编",
-	"Saved successfully" : "保存成功"
+	"Saved successfully" : "保存成功",
+	"Card Number" : "卡号",
+	"Name" : "姓名",
+	"Expiry Month" : "到期月",
+	"Expiry Year" : "到期年",
+	"Card Security Code (CVV2)" : "安全码（CVV2）",
+	"Receiver" : "收件人",
+	"Phone" : "联系电话",
+	"Email" : "Email"
 }

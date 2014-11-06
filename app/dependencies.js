@@ -60,6 +60,7 @@
 	//shopping cart
 	injector.register("Cart",require("./entities/cart"));
 	injector.register("AddressBook",require("./entities/address_book"));
+	injector.register("Creditcard",require("./entities/creditcard"));
 
 
 	//business

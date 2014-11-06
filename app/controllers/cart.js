@@ -1,6 +1,5 @@
 var prepare=require('./libs/_l').prepare;
 var Cart=function(){
-
 }
 
 injector.process("BaseController",function(BaseController)
@@ -36,15 +35,123 @@ Cart.prototype.render_checkout=function()
 		prepare(data,"location_type_text","Location Type");
 		prepare(data,"new_address_text","New Address");
 		prepare(data,"my_current_address_text","My Current Address");
-		prepare(data,"security_info_text","The credit card information will be stored in your local device and will be protected by PIN number that you set");
+		prepare(data,"security_info_text","The credit card information will be stored in your local device and will be protected by cvv2 of your card");
 		prepare(data,"cart_text","Cart");
 		prepare(data,"submit_text","Submit");
 		prepare(data,"back_text","Back");
 
 		that.getBody().append(templateManager.render("checkout",data));
 		that.buildAddressPanel();
+		that.buildPaymentPanel();
+
+		$("#doCheckoutBtn").on('click',function(evt){
+			//verify
+			injector.process("formValidator","notifier","session",function(validator,notifier,session){
+				var $form=$("#checkout").find("[role=form]");
+				validator.resetErrorClass($form);
+				var ret=validator.simpleValidate($form);
+
+				if(ret.success)
+				{
+					debugger;
+				}else
+				{
+					notifier.error(ret.description);
+					$(ret.target).parent().addClass("has-error")
+				}
+			})
+
+			//submit... wait for the feedback
+			evt.preventDefault();
+		})
 
 	})
+}
+Cart.prototype.buildPaymentPanel=function()
+{
+	var that=this;
+	var data;
+	injector.process("Creditcard",function(Creditcard){
+		data=Creditcard.getOnlyInstance().getItem();
+	});
+	injector.process('FormGenerator','notifier',
+	function(FormGen,AddressBook,notifier){
+		var formGen=FormGen.getInstance();
+		var $payment_form=$("#payment_form");
+		formGen.getSubmitBtnText=function()
+		{
+			return " <span class='glyphicon glyphicon-floppy-disk myicon'></span> ";
+		};
+		formGen.onVerified=function(data)
+		{
+			var that=this;
+			injector.process("Creditcard",function(Creditcard){
+				var ab=Creditcard.getOnlyInstance();
+				delete data['cvv'];
+
+				if(data.card_number.indexOf("************")===0)
+				{
+					data.card_number = ab.getItem().card_number;
+				}
+
+				ab.put(data);
+				that.notifier.success(_l("Saved successfully"));
+			})
+		};
+		formGen.generate({
+			label: _l("Card Number"),
+			type: "input",
+			code: "card_number",
+			required: "required",
+			value: that.mask(data.card_number)
+		},{
+			label: _l("Name"),
+			type: "input",
+			code: "name",
+			required: "required",
+			value: data.name
+		},{
+			label: _l("Expiry Month"),
+			type: "select",
+			code: "expiry_month",
+			required: "required",
+			value: data.expiry_month,
+			options:[
+			{value: "01", text: "January(01)"}
+			,{value: "02", text: "February(02)"}
+			,{value: "03", text: "March(03)"}
+			,{value: "04", text: "April(04)"}
+			,{value: "05", text: "May(05)"}
+			,{value: "06", text: "June(06)"}
+			,{value: "07", text: "July(07)"}
+			,{value: "08", text: "August(08)"}
+			,{value: "09", text: "September(09)"}
+			,{value: "10", text: "October(10)"}
+			,{value: "11", text: "November(11)"}
+			,{value: "12", text: "December(12)"}
+			]
+		},
+		{
+			label: _l("Expiry Year"),
+			type: "select",
+			code: "expiry_year",
+			required: "required",
+			value: data.expiry_year,
+			options:[
+			"14","15","16","17","18","19","20","21","22","23","24"
+			]
+		},
+		{
+			label: _l("Card Security Code (CVV2)"),
+			type: "password",
+			code: "cvv"
+		}).appendTo($payment_form);
+	});
+}
+
+Cart.prototype.mask=function(cardNumber)
+{
+	return "************"+cardNumber.substr(-3);
 }
 
 Cart.prototype.buildAddressPanel=function()
@@ -82,6 +189,45 @@ Cart.prototype.showCurrentLocation=function()
 		$address_form.empty();
 		$address_form.append('<center><iframe width="240" height="240" frameborder="0" style="border:0"\
 src="https://www.google.com/maps/embed/v1/place?zoom=12&q=loc:' + latitude +'+' + longitude + '&key=AIzaSyAmltswG-ygaXzheglI-yodGtAoAwUs5c0"></iframe></center>');
+		
+		injector.process("FormGenerator","storage",function(FormGen,storage){
+			var data=storage.get("defaultValue") || {};
+			var generator=FormGen.getInstance();
+			generator.hasSubmitButton=false;
+			generator.generate({
+				label: _l("Receiver"),
+				type: "input",
+				code: "receiver",
+				required: "required",
+				value: data.receiver,
+				onChange: function(){
+					data.receiver=$(this).val();
+					storage.set("defaultValue",data)
+				}
+			},
+			{
+				label: _l("Phone"),
+				type: "tel",
+				code: "phone",
+				required: "required",
+				value: data.phone,
+				onChange: function(){
+					data.phone=$(this).val();
+					storage.set("defaultValue",data)
+				}
+			},
+			{
+				label: _l("Email"),
+				type: "email",
+				code: "email",
+				required: "required",
+				value: data.email,
+				onChange: function(){
+					data.email=$(this).val();
+					storage.set("defaultValue",data)
+				}
+			}).appendTo($address_form)
+		})
 	});
 }
 
@@ -111,7 +257,29 @@ Cart.prototype.showAddressForm=function(data)
 			type: "input",
 			code: "name",
 			value: data.name
-		},{
+		},
+		{
+			label: _l("Receiver"),
+			type: "input",
+			code: "receiver",
+			required: "required",
+			value: data.receiver
+		},
+		{
+			label: _l("Phone"),
+			type: "tel",
+			code: "phone",
+			required: "required",
+			value: data.phone
+		},
+		{
+			label: _l("Email"),
+			type: "email",
+			code: "email",
+			required: "required",
+			value: data.email
+		},
+		{
 			label: _l("Steet Line 1"),
 			type: "input",
 			code: "addressline1",

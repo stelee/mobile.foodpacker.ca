@@ -12,6 +12,10 @@ var Input=function(attr)
 		$input.autocomplete(attr.autocomplete);
 	}
 	$comp.append($input);
+	if(attr.onChange)
+	{
+		$input.on('change',attr.onChange);
+	}
 	this.$comp= $comp;
 }
 injector.process("BaseWidget",function(BaseWidget){

@@ -4,6 +4,7 @@ var Generator=function()
 {
 	//dependencies
 	var that=this;
+	this.hasSubmitButton=true;
 	injector.process("widgetManager","eventManager","formValidator","notifier",
 	function(widgetManager,eventManager,formValidator,notifier){
 		that.widgetManager=widgetManager;
@@ -54,21 +55,24 @@ Generator.prototype.generate=function()
 		}
 		this.widgetManager.append($form,field.type,field);
 	}
-	this.widgetManager.append($form,"button",{label:that.getSubmitBtnText(),code : "submit",type: "submit",onclick:function(){
-		var validator=that.formValidator;
-		var notifier=that.notifier;
+	if(this.hasSubmitButton === true)
+	{
+		this.widgetManager.append($form,"button",{label:that.getSubmitBtnText(),code : "submit",type: "submit",onclick:function(){
+			var validator=that.formValidator;
+			var notifier=that.notifier;
 
-		var $form=$(this).parent("[role=form]");
-		validator.resetErrorClass($form);
-		var ret=validator.simpleValidate($form);
-		if(ret.success)
-		{
-			that.onVerified(ret.data);
-		}else
-		{
-			that.onFailed(ret);
-		}
-	}});
+			var $form=$(this).parent("[role=form]");
+			validator.resetErrorClass($form);
+			var ret=validator.simpleValidate($form);
+			if(ret.success)
+			{
+				that.onVerified(ret.data);
+			}else
+			{
+				that.onFailed(ret);
+			}
+		}});
+	}
 	return $container;
 }
 

@@ -10,10 +10,23 @@ exports.render=function(attrs)
 	$comp.append("<label for='" + attrs.code + "'> "+ attrs.label + "</label>" );
 	var $select=$("<select " + multiple + "class='form-control' id='" + attrs.code + "' "+required+">");
 	attrs.options.forEach(function(option){
-		var $option=$("<option value='" + option.value + "'>" + option.text + "</option>");
+		var value,text;
+		if(typeof option != "object")
+		{
+			value=option;
+			text=option;
+		}else
+		{
+			value=option.value;
+			text=option.text;
+		}
+		var $option=$("<option value='" + value + "'>" + text + "</option>");
 		$select.append($option);
 	})
-
+	if(attrs.value)
+	{
+		$select.val(attrs.value);
+	}
 	$comp.append($select);
 	return $comp;
 }
