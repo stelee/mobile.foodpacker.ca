@@ -1,5 +1,9 @@
 @import (less) "../css/pnotify.custom.min.css";
 
+.stop-scrolling{
+  height: 100%;
+  overflow: hidden;
+}
 body {
   padding-top: 50px;
   .tab-content
@@ -15,8 +19,11 @@ body {
   }
   div.loading
   {
-  	top: 10px;
-  	right: 16px;
+  	width: 100%;
+    height: 100%;
+    opacity: 0.8;
+    top:  0px;
+    right: 0px;
   	position: absolute;
   	background: black;
   	z-index: 9999;
@@ -24,6 +31,13 @@ body {
   	span{
   		padding-left: 10px;
   	}
+    div.iconcontainer
+    {
+      text-align: center;
+      position: absolute;
+      width: 100%;
+      top: 50%;
+    }
   }
   .full-width
   {

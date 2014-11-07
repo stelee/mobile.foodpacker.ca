@@ -71,5 +71,6 @@
 
 	//Services
 	loadService("productService","product_service");
+	loadService("checkoutService","checkout_service");
 	
 })()

@@ -12,8 +12,25 @@ var Tel=function(attr)
 			return true;
 		}
 		var re = /^(\([0-9]{3}\)\s?|[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
-    	return re.test(value);
+    	var ret=re.test(value);
+    	if(ret===true)
+    	{
+    		return ret;
+    	}else
+    	{
+    		if(isNaN(value))
+    		{
+    			return false;
+    		}else
+    		{
+    			return true;
+    		}
+    	}
 	});
+	if(attr.onChange)
+	{
+		$input.on('change',attr.onChange);
+	}
 	this.$comp=$comp;
 }
 injector.process("baseWidget",function(base){

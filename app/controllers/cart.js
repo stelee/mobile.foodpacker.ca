@@ -1,4 +1,5 @@
 var prepare=require('./libs/_l').prepare;
+var Null=require('./libs/null');
 var Cart=function(){
 }
 
@@ -22,8 +23,8 @@ Cart.prototype.render_checkout=function()
 {
 	var that=this;
 	this.getBody().empty();
-	injector.process('templateManager','Cart','notifier','FormGenerator',
-	function(templateManager,Cart,notifier,FormGen){
+	injector.process('templateManager','Cart','notifier','FormGenerator','storage',
+	function(templateManager,Cart,notifier,FormGen,storage){
 		var formGen=FormGen.getInstance();
 		var cart=Cart.getOnlyInstance();
 		var items=cart.getItems();
@@ -46,14 +47,27 @@ Cart.prototype.render_checkout=function()
 
 		$("#doCheckoutBtn").on('click',function(evt){
 			//verify
-			injector.process("formValidator","notifier","session",function(validator,notifier,session){
+			injector.process("formValidator","notifier","Creditcard","checkoutService",
+			function(validator,notifier,Creditcard,checkoutService){
 				var $form=$("#checkout").find("[role=form]");
 				validator.resetErrorClass($form);
 				var ret=validator.simpleValidate($form);
+				if($("#cvv").val() === "")
+				{
+					ret.success=false;
+					ret.description=_l("Please input the security code(cvv2) number");
+				}
 
 				if(ret.success)
 				{
-					debugger;
+					if(ret.data.card_number.indexOf("************")===0)
+					{
+						ret.data.card_number=Creditcard.getOnlyInstance().getItem().card_number;
+					}
+					checkoutService.send(ret.data,function(){
+						notifier.success(_l("Place order successfully"));
+						window.location.href="#!/"
+					})
 				}else
 				{
 					notifier.error(ret.description);
@@ -61,7 +75,7 @@ Cart.prototype.render_checkout=function()
 				}
 			})
 
-			//submit... wait for the feedback
+			
 			evt.preventDefault();
 		})
 
@@ -151,7 +165,14 @@ Cart.prototype.buildPaymentPanel=function()
 
 Cart.prototype.mask=function(cardNumber)
 {
-	return "************"+cardNumber.substr(-3);
+	if(Null.isEmpty(cardNumber))
+	{
+		return "";
+	}else
+	{
+		return "************"+cardNumber.substr(-3);
+	}
+	
 }
 
 Cart.prototype.buildAddressPanel=function()

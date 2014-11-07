@@ -11,6 +11,10 @@ var Email=function(attr)
 		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     	return re.test(value);
 	});
+	if(attr.onChange)
+	{
+		$input.on('change',attr.onChange);
+	}
 	this.$comp=$comp;
 }
 injector.process("baseWidget",function(base){

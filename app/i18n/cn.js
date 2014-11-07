@@ -47,5 +47,7 @@ exports.map={
 	"Card Security Code (CVV2)" : "安全码（CVV2）",
 	"Receiver" : "收件人",
 	"Phone" : "联系电话",
-	"Email" : "Email"
+	"Email" : "Email",
+	"Please input the security code(cvv2) number" : "请输入安全码（CVV2）",
+	"Place order successfully" : "已经成功下订单"
 }
