@@ -56,6 +56,7 @@
 	injector.register("path",require("./libs/path"));
 	injector.register("dateUtils",require("./libs/date_utils"));
 	injector.register("stringUtils",require("./libs/string_utils").stringUtils);
+	injector.register("htmlEnDecode",require("./libs/htmlEnDecode"));
 
 	//shopping cart
 	injector.register("Cart",require("./entities/cart"));

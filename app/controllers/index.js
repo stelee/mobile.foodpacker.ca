@@ -1,3 +1,4 @@
+var Nil=require('./libs/null');
 var Index=function(){
 
 }
@@ -31,9 +32,17 @@ Index.prototype.render=function(){
 				items: data,
 				renderItem: function(item)
 				{
+					var icon;
+					if(Nil.isEmpty(item.icon))
+					{
+						icon='mock/assets/food.png';
+					}else
+					{
+						icon=item.icon
+					}
 					var $ret=$("<a href='/#!/products/categories/" + item.code + "' class='list-group-item'>\
 							<div class='pull-left' style='padding-right: 15px;'>\
-							<img src='" + item.icon + "' width='64px' height='64px'/>\
+							<img src='" + icon + "' width='40px' height='40px'/>\
 	    					</div>\
 							 <div class='media-body'>\
 							 	<h4 class='list-group-item-heading'>" + item.name + "</h4>\

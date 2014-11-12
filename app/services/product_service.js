@@ -1,6 +1,10 @@
 //product service
+var server='http://localhost:9000/opencart/';
+
 var features_service_url= '/mock/features.json';
-var categories_service_url= '/mock/categories.json';
+//var categories_service_url= '/mock/categories.json';
+var categories_service_url= server + "categories/list/";
+
 var products_service_url= '/mock/products.json';
 var product_service_url='/mock/product.json';
 
@@ -8,9 +12,10 @@ var product_service_url='/mock/product.json';
 var Service=function()
 {
 	var that=this;
-	injector.process("loadBar","HttpClient",function(loadBar,HttpClient){//deps
+	injector.process("loadBar","HttpClient","storage",function(loadBar,HttpClient,storage){//deps
 		that.loadBar=loadBar;
 		that.HttpClient=HttpClient;
+		that.language=storage.getSystem("language") || "en";
 	})
 }
 
@@ -24,7 +29,7 @@ Service.prototype.getFeatures=function()
 Service.prototype.getCategories=function()
 {
 	var that=this;
-	var client=new this.HttpClient(categories_service_url);
+	var client=new this.HttpClient(categories_service_url+that.language);
 	return client.get();
 }
 
