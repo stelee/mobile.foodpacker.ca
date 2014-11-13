@@ -28,6 +28,16 @@ Product.prototype.render=function(params)
 			product.buy_text=_l("Buy");
 			product.qty_text=_l("Qty");
 			product.back_text=_l("< Go back")
+			if(Null.isNotNull(product.special_price))
+			{
+				product.price_amount="<del class='del'>" + product.price + "</del> <span class='good_deal'>" + product.special_price +"</span>";
+			}else if(Null.isNotNull(product.discount_price))
+			{
+				product.price_amount="<del>" + product.price + "</del><span class='good_deal'>" + product.discount_price +"</span>";
+			}else
+			{
+				product.price_amount = product.price;
+			}
 
 			$body.append(templateManager.render("product",product));
 			that.product=product;

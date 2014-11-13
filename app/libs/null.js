@@ -10,6 +10,15 @@ var isNull=function(obj){
     return false;
 }
 
+var isNotNull=function(obj)
+{
+    return !isNull(obj);
+}
+var isNotEmpty=function(obj)
+{
+    return !isEmpty(obj);
+}
+
 var isEmpty=function(obj)
 {
 	if(typeof obj === 'string' && obj === "")
@@ -24,3 +33,5 @@ var isEmpty=function(obj)
 }
 exports.isNull=isNull;
 exports.isEmpty=isEmpty;
+exports.isNotEmpty=isNotEmpty;
+exports.isNotNull=isNotNull;

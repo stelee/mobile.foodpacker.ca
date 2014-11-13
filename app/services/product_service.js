@@ -5,8 +5,10 @@ var features_service_url= '/mock/features.json';
 //var categories_service_url= '/mock/categories.json';
 var categories_service_url= server + "categories/list/";
 
-var products_service_url= '/mock/products.json';
-var product_service_url='/mock/product.json';
+//var products_service_url= '/mock/products.json';
+products_service_url= server + 'products/listByCategory/';
+//var product_service_url='/mock/product.json';
+var product_service_url= server + 'products/product/';
 
 
 var Service=function()
@@ -35,14 +37,14 @@ Service.prototype.getCategories=function()
 
 Service.prototype.getProducts=function(categoryId)
 {
-	var client=new this.HttpClient(products_service_url);
-	return client.get({categoryId: categoryId});
+	var client=new this.HttpClient(products_service_url + categoryId + '/' + this.language);
+	return client.get();
 }
 
 Service.prototype.getProduct=function(productId)
 {
-	var client=new this.HttpClient(product_service_url);
-	return client.get({productId: productId});
+	var client=new this.HttpClient(product_service_url + productId + '/' + this.language);
+	return client.get();
 }
 
 exports.getInstance=function()

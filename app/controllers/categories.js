@@ -39,20 +39,24 @@ Ctrl.prototype.render=function(params)
 						active= "active";
 					}
 					var $ret=$("<a href='/#!/products/categories/" + item.code + "' class='list-group-item " + active + "'>\
-							<div class='pull-left' style='padding-right: 15px;'>\
-							<img src='" + item.icon + "' width='64px' height='64px'/>\
-	    					</div>\
-							 <div class='media-body'>\
 							 	<h4 class='list-group-item-heading'>" + item.name + "</h4>\
-								<p class='list-group-item-text'>" + item.description + "</p>\
-							</div>\
-							<div style='clear:both'></div>\
 							</a>");
 					return $ret;
 				}
 			});
 		});
 		productsBusiness.getProductsByCategory(categoryCode).then(function(products){
+			//shorter the description
+			products.map(function(p){
+				//remove the html tag
+				$tmp=$(p.description);
+				p.description=$tmp.text();
+				if(p.description.length >= 50)
+				{
+					p.description=p.description.substring(0,48) + "...";
+				}
+			})
+
 			var data={
 				products : products
 			};
