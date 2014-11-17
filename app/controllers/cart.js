@@ -420,7 +420,7 @@ Cart.prototype.refreshTotal=function()
 		function(elem){return $(this).val() * $(this).attr('data-unitprice')}
 		)
 	.toArray()
-	.reduce(function(a,b){a+b});
+	.reduce(function(a,b){return a+b});
 	$("#total_price").text(total);
 }
 exports.getInstance=function(){
