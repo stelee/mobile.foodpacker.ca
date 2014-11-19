@@ -10,7 +10,7 @@ products_service_url= server + 'products/listByCategory/';
 //var product_service_url='/mock/product.json';
 var product_service_url= server + 'products/product/';
 
-var price_service_url=sever + 'products/price/'
+var price_service_url=server + 'products/price/'
 
 
 var Service=function()
@@ -46,7 +46,7 @@ Service.prototype.getProducts=function(categoryId)
 
 Service.prototype.getPrice=function(productId)
 {
-	var client=new this.HttpClient(price_service_url + productId + '/');
+	var client=new this.HttpClient(price_service_url + productId + '/' + this.language);
 	return client.get();
 }
 
