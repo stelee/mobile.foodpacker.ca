@@ -49,5 +49,11 @@ exports.map={
 	"Phone" : "联系电话",
 	"Email" : "Email",
 	"Please input the security code(cvv2) number" : "请输入安全码（CVV2）",
-	"Place order successfully" : "已经成功下订单"
+	"Place order successfully" : "已经成功下订单",
+	"Adjust your quantity based on our stock" : "我们根据库存调整了您的订单数量",
+	"Your product has the special price now" : "您的产品现在有特价",
+	"Your product has the discount price now" : "您的产品现在有折扣价",
+	"," : "，",
+	"the original price is " : "原价是 ",
+	"Can't connect to the server" : "暂时无法连接服务器"
 }

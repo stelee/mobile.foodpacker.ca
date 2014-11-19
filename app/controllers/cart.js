@@ -1,6 +1,7 @@
 var prepare=require('./libs/_l').prepare;
 var Null=require('./libs/null');
 var Cart=function(){
+	this.connected=true;
 }
 
 injector.process("BaseController",function(BaseController)
@@ -19,6 +20,48 @@ Cart.prototype.render=function(param)
 	}
 }
 
+Cart.prototype._getFinalPrice=function(data)
+{
+	if(Null.isNotNull(data.special_price))
+	{
+		return data.special_price;
+	}else if(Null.isNotNull(data.discount_price))
+	{
+		return data.discount_price;
+	}else
+	{
+		return data.price;
+	}
+}
+
+Cart.prototype._preparePurchased=function(items)
+{
+	var that=this;
+	var productService;
+	injector.process("productService",function(s){productService=s});
+	return new Promise(function(success,failed){
+		Promise.all(items.map(function(item){
+			return new Promise(function(resolve,reject){
+				productService.getPrice(item.product_id).then(function(data){
+					ret={
+						product_id: item.product_id,
+						qty: item.qty,
+						price: that._getFinalPrice(data)
+					};
+					resolve(ret);
+				})
+			})
+		})).then(function(purchased){
+			success(purchased);
+		}).catch(function(err)
+		{
+			notifier.error(_l("Can't connect to the server"));
+			that.connected=false;
+			failed(err);
+		})
+	});
+}
+
 Cart.prototype.render_checkout=function()
 {
 	var that=this;
@@ -31,6 +74,10 @@ Cart.prototype.render_checkout=function()
 		var data={
 			items: items,
 		}
+
+		that._preparePurchased(items).then(function(data){
+			that.purchased=data;
+		});
 
 		//add text
 		prepare(data,"location_type_text","Location Type");
@@ -57,7 +104,7 @@ Cart.prototype.render_checkout=function()
 					ret.success=false;
 					ret.description=_l("Please input the security code(cvv2) number");
 				}
-
+				ret.data.purchased=purchased;
 				if(ret.success)
 				{
 					if(ret.data.card_number.indexOf("************")===0)
@@ -357,31 +404,88 @@ Cart.prototype.showAddressForm=function(data)
 Cart.prototype.render_cart=function(){
 	var that=this;
 	this.getBody().empty();
-	injector.process('templateManager','Cart','notifier',function(templateManager,Cart,notifier){
+	injector.process('templateManager','Cart','notifier','productService',
+	function(templateManager,Cart,notifier,productService){
 		var cart=Cart.getOnlyInstance();
-		var items=cart.getItems();
-		var data={
-			items: items,
-			refresh_text: _l("Refresh"),
-			checkout_text: _l("Checkout"),
-			back_text: _l("Back"),
-			total_text: _l("Total")
-		}
+		var origItems=cart.getItems();
+		//check the stock and the real price
+		Promise.all(origItems.map(function(item){
+			return new Promise(function(resolve,reject){
+				productService.getPrice(item.product_id).then(function(data){
+					item.name=data.name;
+					if(item.qty>data.quantity)
+					{
+						item.qty=data.quantity;
+						item.stock_desc=_l("Adjust your quantity based on our stock");
+					}else
+					{
+						item.stock_desc="";
+					}
+					if(Null.isNotNull(data.special_price))
+					{
+						item.unit_price=data.special_price;
+						item.price_desc=_l("Your product has the special price now",",","the original price is ",data.price, item.currency);
+					}else if(Null.isNotNull(data.discount_price))
+					{
+						item.unit_price=data.discount_price;
+						item.price_desc=_l("Your product has the discount price now",",","the original price is ",data.price,item.currency);
+					}else
+					{
+						item.unit_price=data.price;
+						item.price_desc="";
+					}
+					resolve(item);
+				})
+			})
+		})).then(function(items){
+			that.showTheCart(items);
+		}).catch(function(err)
+		{
+			notifier.error(_l("Can't connect to the server"));
+
+			that.showTheCart(origItems);
+		})
+	});
+}
+
+Cart.prototype.showTheCart=function(items)
+{
+	var that=this;
+	var data={
+		items: items,
+		refresh_text: _l("Refresh"),
+		checkout_text: _l("Checkout"),
+		back_text: _l("Back"),
+		total_text: _l("Total")
+	}
+	injector.process('templateManager','Cart','notifier','productService',
+	function(templateManager,Cart,notifier,productService){
+		var cart=Cart.getOnlyInstance();
 		that.getBody().append(templateManager.render("cart",data));
 		that.refreshTotal();
 		//bind all function
 		//update the qty
 		$(".qtyInput").on("change",function(){
+			var $input=$(this);
 			var newQty=Number($(this).val())
 			var productId=$(this).attr("data-productid");
-			if(isNaN(newQty) || newQty<=0)
+			if(isNaN(newQty) || newQty<0)
 			{
 				notifier.error(_l("Not a valid number"));
 				$(this).val(1);
 				return;
 			}
-			cart.updateQty(productId,newQty);
-			that.refreshTotal();
+			productService.getPrice(productId).then(function(data)
+			{
+				if(data.quantity<newQty)
+				{
+					newQty=data.quantity;
+					notifier.info(_l("Adjust your quantity based on our stock"));
+					$input.val(newQty);
+				}
+				cart.updateQty(productId,newQty);
+				that.refreshTotal();
+			})
 		});
 		//delete the item
 		$(".deleteLink").on("click",function(){
@@ -395,7 +499,7 @@ Cart.prototype.render_cart=function(){
 		})
 		//checkout
 		$("#checkoutBtn").on("click",function(e){
-	
+
 			if($("#total_price").text() === "0")
 			{
 				notifier.error(_l("Your shopping cart is still empty"));
@@ -406,7 +510,8 @@ Cart.prototype.render_cart=function(){
 			}
 			e.preventDefault();
 		})
-	});
+	})
+	
 }
 
 Cart.prototype.refreshTotal=function()
@@ -421,6 +526,7 @@ Cart.prototype.refreshTotal=function()
 		)
 	.toArray()
 	.reduce(function(a,b){return a+b});
+	total=Math.round(total*100)/100
 	$("#total_price").text(total);
 }
 exports.getInstance=function(){
