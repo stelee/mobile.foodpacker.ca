@@ -55,5 +55,7 @@ exports.map={
 	"Your product has the discount price now" : "您的产品现在有折扣价",
 	"," : "，",
 	"the original price is " : "原价是 ",
-	"Can't connect to the server" : "暂时无法连接服务器"
+	"Can't connect to the server" : "暂时无法连接服务器",
+	"Error happend": "有错误发生",
+	"Please try again later or contact us" : "请重试或者联系我们"
 }

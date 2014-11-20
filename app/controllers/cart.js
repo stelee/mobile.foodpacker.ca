@@ -2,6 +2,7 @@ var prepare=require('./libs/_l').prepare;
 var Null=require('./libs/null');
 var Cart=function(){
 	this.connected=true;
+	this.autoLocation=false;
 }
 
 injector.process("BaseController",function(BaseController)
@@ -77,6 +78,12 @@ Cart.prototype.render_checkout=function()
 
 		that._preparePurchased(items).then(function(data){
 			that.purchased=data;
+			var total=0;
+			that.purchased.forEach(function(elem){
+				total += elem.qty*elem.price;	
+			})
+			that.total=Math.round(total*100)/100
+			$(".total_price").text(that.total);
 		});
 
 		//add text
@@ -87,6 +94,7 @@ Cart.prototype.render_checkout=function()
 		prepare(data,"cart_text","Cart");
 		prepare(data,"submit_text","Submit");
 		prepare(data,"back_text","Back");
+		prepare(data,"total_text","Total");
 
 		that.getBody().append(templateManager.render("checkout",data));
 		that.buildAddressPanel();
@@ -104,9 +112,16 @@ Cart.prototype.render_checkout=function()
 					ret.success=false;
 					ret.description=_l("Please input the security code(cvv2) number");
 				}
-				ret.data.purchased=purchased;
+
 				if(ret.success)
 				{
+					ret.data.purchased=that.purchased;
+					ret.data.total=that.total;
+					if(that.autoLocation===true)
+					{
+						ret.data.latitude=that.latitude;
+						ret.data.longitude=that.longitude;
+					}
 					if(ret.data.card_number.indexOf("************")===0)
 					{
 						ret.data.card_number=Creditcard.getOnlyInstance().getItem().card_number;
@@ -114,6 +129,8 @@ Cart.prototype.render_checkout=function()
 					checkoutService.send(ret.data,function(){
 						notifier.success(_l("Place order successfully"));
 						window.location.href="#!/"
+					},function(err){
+						notifier.error(_l("Error happend","Please try again later or contact us"));
 					})
 				}else
 				{
@@ -233,6 +250,7 @@ Cart.prototype.buildAddressPanel=function()
 			$("#locationType").append("<option value='"+index+"'> " + item.name + "</option>")
 		});
 		$("#locationType").on("change",function(){
+			that.autoLocation=false;
 			var val=$(this).val();
 			if(val==="new")
 			{
@@ -250,9 +268,14 @@ Cart.prototype.buildAddressPanel=function()
 }
 Cart.prototype.showCurrentLocation=function()
 {
+	var that=this;
+	that.autoLocation=true;
 	navigator.geolocation.getCurrentPosition(function(position){
 		var latitude=position.coords.latitude;
 		var longitude=position.coords.longitude;
+		that.latitude=latitude;
+		that.longitude=longitude;
+
 		var $address_form=$("#address_form");
 		$address_form.empty();
 		$address_form.append('<center><iframe width="240" height="240" frameborder="0" style="border:0"\
