@@ -57,6 +57,7 @@
 	injector.register("dateUtils",require("./libs/date_utils"));
 	injector.register("stringUtils",require("./libs/string_utils").stringUtils);
 	injector.register("htmlEnDecode",require("./libs/htmlEnDecode"));
+	injector.register("GoogleGeo",require("./libs/google_geo").GoogleGeo);
 
 	//shopping cart
 	injector.register("Cart",require("./entities/cart"));
@@ -73,5 +74,6 @@
 	//Services
 	loadService("productService","product_service");
 	loadService("checkoutService","checkout_service");
+	loadService("shipmentService","shipment_service");
 	
 })()

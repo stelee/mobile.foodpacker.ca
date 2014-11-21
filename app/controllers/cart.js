@@ -1,5 +1,11 @@
 var prepare=require('./libs/_l').prepare;
 var Null=require('./libs/null');
+var GoogleGeo;
+
+injector.process("GoogleGeo",function(a)
+{
+	GoogleGeo=a;
+})
 var Cart=function(){
 	this.connected=true;
 	this.autoLocation=false;
@@ -95,6 +101,7 @@ Cart.prototype.render_checkout=function()
 		prepare(data,"submit_text","Submit");
 		prepare(data,"back_text","Back");
 		prepare(data,"total_text","Total");
+		prepare(data,"estimated_shipment_fee_text","Estimated Shipment Fee")
 
 		that.getBody().append(templateManager.render("checkout",data));
 		that.buildAddressPanel();
@@ -122,6 +129,7 @@ Cart.prototype.render_checkout=function()
 						ret.data.latitude=that.latitude;
 						ret.data.longitude=that.longitude;
 					}
+					ret.data.shipment=that.shipment;
 					if(ret.data.card_number.indexOf("************")===0)
 					{
 						ret.data.card_number=Creditcard.getOnlyInstance().getItem().card_number;
@@ -239,6 +247,44 @@ Cart.prototype.mask=function(cardNumber)
 	
 }
 
+Cart.prototype.calculateShipment=function(postalCodeOrLatitude,longitude)
+{
+	var postalCode,latitude;
+	var googleGeo=new GoogleGeo();
+	var that=this;
+
+	if(Null.isNull(longitude))
+	{
+		postalCode=postalCodeOrLatitude;
+		that.calculateShipmentByPostalCode(postalCode);
+	}else
+	{
+		latitude=postalCodeOrLatitude;
+		googleGeo.decode(latitude,longitude).then(function(address){
+			var postalCode=address.postal_code;
+			that.calculateShipmentByPostalCode(postalCode);
+		}).catch(function(err){
+			$("#shipment").text(_l("Can't get the value now","It will be around",5))
+			that.shipment=5;
+		})
+	}
+}
+
+Cart.prototype.calculateShipmentByPostalCode=function(postalCode)
+{
+	var that=this;
+	injector.process('shipmentService',function(service)
+	{
+		service.estimate(postalCode).then(function(fee){
+			$("#shipment").text(fee);
+			that.shipment=fee;
+		}).catch(function(){
+			$("#shipment").text(_l("Can't get the value now","It will be around",5));
+			that.shipment=5;
+		})
+	})
+}
+
 Cart.prototype.buildAddressPanel=function()
 {
 	var that=this;
@@ -261,6 +307,7 @@ Cart.prototype.buildAddressPanel=function()
 			}else
 			{
 				that.showAddressForm(items[val]);
+				that.calculateShipment($("#postalcode").val());
 			}
 		})
 	});	
@@ -275,6 +322,8 @@ Cart.prototype.showCurrentLocation=function()
 		var longitude=position.coords.longitude;
 		that.latitude=latitude;
 		that.longitude=longitude;
+
+		that.calculateShipment(latitude,longitude);
 
 		var $address_form=$("#address_form");
 		$address_form.empty();
@@ -325,6 +374,7 @@ src="https://www.google.com/maps/embed/v1/place?zoom=12&q=loc:' + latitude +'+' 
 Cart.prototype.showAddressForm=function(data)
 {
 	data=data || {};
+	var that=this;
 	injector.process('FormGenerator','AddressBook','notifier',
 	function(FormGen,AddressBook,notifier){
 		var formGen=FormGen.getInstance();
@@ -401,7 +451,11 @@ Cart.prototype.showAddressForm=function(data)
 			type: "input",
 			code: "postalcode",
 			required: "required",
-			value: data.postalcode	
+			value: data.postalcode,
+			onChange:function(){
+				var postalCode=$(this).val();
+				that.calculateShipment(postalCode);
+			}	
 		},
 		{
 			label: ' <span class="glyphicon glyphicon-trash myicon"></span> ',

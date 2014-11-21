@@ -57,5 +57,8 @@ exports.map={
 	"the original price is " : "原价是 ",
 	"Can't connect to the server" : "暂时无法连接服务器",
 	"Error happend": "有错误发生",
-	"Please try again later or contact us" : "请重试或者联系我们"
+	"Please try again later or contact us" : "请重试或者联系我们",
+	"Estimated Shipment Fee" : "预计送货费",
+	"Can't get the value now": "暂时无法从服务器获得送货费信息",
+	"It will be around" : "大概将是"
 }
