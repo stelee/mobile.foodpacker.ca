@@ -11,7 +11,7 @@ exports.appConfig=
 		["About","/about"]
 	],
 	login: "/login",
-	appPath: "/"
+	appPath: "index.html"
 }
 
 //configuration of the router

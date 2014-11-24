@@ -51,6 +51,8 @@ Cart.prototype._preparePurchased=function(items)
 			return new Promise(function(resolve,reject){
 				productService.getPrice(item.product_id).then(function(data){
 					ret={
+						product_name: data.name,
+						product_model: data.model,
 						product_id: item.product_id,
 						qty: item.qty,
 						price: that._getFinalPrice(data)
