@@ -249,7 +249,46 @@ Cart.prototype.mask=function(cardNumber)
 	
 }
 
-Cart.prototype.calculateShipment=function(postalCodeOrLatitude,longitude)
+Cart.prototype.parseAddressDetails=function(address)
+{
+	var that=this;
+	var addressData={};
+	var details=address.details.address_components;
+	details.forEach(function(info)
+	{
+		try{
+			var type=info.types[0];
+			switch(type)
+			{
+				case "street_number":
+					addressData.street_number=info.long_name;
+					break;
+				case "route":
+					addressData.route=info.long_name;
+					break;
+				case "locality":
+					addressData.city=info.long_name;
+					break;
+				case "administrative_area_level_1":
+					addressData.province=info.long_name;
+					break;
+				case "country":
+					addressData.country=info.long_name;
+					break;
+				case "postal_code":
+					addressData.postal_code=info.long_name;
+					break;
+				default:
+					break;
+			}
+		}catch(e)
+		{
+			console.log("error on parsing the address info "+info);
+		}
+	})
+}
+
+Cart.prototype.calculateShipmentAndParseAddress=function(postalCodeOrLatitude,longitude)
 {
 	var postalCode,latitude;
 	var googleGeo=new GoogleGeo();
@@ -258,13 +297,14 @@ Cart.prototype.calculateShipment=function(postalCodeOrLatitude,longitude)
 	if(Null.isNull(longitude))
 	{
 		postalCode=postalCodeOrLatitude;
-		that.calculateShipmentByPostalCode(postalCode);
+		that.calculateShipmentAndParseAddressByPostalCode(postalCode);
 	}else
 	{
 		latitude=postalCodeOrLatitude;
 		googleGeo.decode(latitude,longitude).then(function(address){
+			that.parseAddressDetails(address);
 			var postalCode=address.postal_code;
-			that.calculateShipmentByPostalCode(postalCode);
+			that.calculateShipmentAndParseAddressByPostalCode(postalCode);
 		}).catch(function(err){
 			$("#shipment").text(_l("Can't get the value now","It will be around",5))
 			that.shipment=5;
@@ -272,7 +312,7 @@ Cart.prototype.calculateShipment=function(postalCodeOrLatitude,longitude)
 	}
 }
 
-Cart.prototype.calculateShipmentByPostalCode=function(postalCode)
+Cart.prototype.calculateShipmentAndParseAddressByPostalCode=function(postalCode)
 {
 	var that=this;
 	injector.process('shipmentService',function(service)
@@ -309,7 +349,7 @@ Cart.prototype.buildAddressPanel=function()
 			}else
 			{
 				that.showAddressForm(items[val]);
-				that.calculateShipment($("#postalcode").val());
+				that.calculateShipmentAndParseAddress($("#postalcode").val());
 			}
 		})
 	});	
@@ -325,7 +365,7 @@ Cart.prototype.showCurrentLocation=function()
 		that.latitude=latitude;
 		that.longitude=longitude;
 
-		that.calculateShipment(latitude,longitude);
+		that.calculateShipmentAndParseAddress(latitude,longitude);
 
 		var $address_form=$("#address_form");
 		$address_form.empty();
@@ -456,7 +496,7 @@ Cart.prototype.showAddressForm=function(data)
 			value: data.postalcode,
 			onChange:function(){
 				var postalCode=$(this).val();
-				that.calculateShipment(postalCode);
+				that.calculateShipmentAndParseAddress(postalCode);
 			}	
 		},
 		{
