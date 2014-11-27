@@ -128,8 +128,12 @@ Cart.prototype.render_checkout=function()
 					ret.data.total=that.total;
 					if(that.autoLocation===true)
 					{
-						ret.data.latitude=that.latitude;
-						ret.data.longitude=that.longitude;
+						var addressData=that.addressData;
+						ret.data.addressline1 = addressData.street_number + " " + addressData.route;
+						ret.data.addressline2 = "";
+						ret.data.city=addressData.city;
+						ret.data.province=addressData.province;
+						ret.data.postalcode=addressData.postal_code;
 					}
 					ret.data.shipment=that.shipment;
 					if(ret.data.card_number.indexOf("************")===0)
@@ -285,7 +289,8 @@ Cart.prototype.parseAddressDetails=function(address)
 		{
 			console.log("error on parsing the address info "+info);
 		}
-	})
+	});
+	this.addressData=addressData;
 }
 
 Cart.prototype.calculateShipmentAndParseAddress=function(postalCodeOrLatitude,longitude)
