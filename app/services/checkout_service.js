@@ -1,4 +1,8 @@
-var service_url="http://localhost:9000/opencart/order"
+var remoteUrl="";
+injector.process('appConfig',function(config){
+	remoteUrl=config.remote_url;
+})
+var service_url=remoteUrl + "order"
 var Service=function()
 {
 	var that=this;
@@ -25,10 +29,6 @@ Service.prototype.send=function(data,onSuccess,onFailed)
 			loadBar.hide();
 			onFailed(err);
 		})
-		// setTimeout(function(){
-		// 	loadBar.hide();
-		// 	onSuccess();
-		// },5000);
 	})
 }
 

@@ -1,5 +1,9 @@
 //product service
 var server='http://localhost:9000/opencart/';
+var remoteUrl="";
+injector.process('appConfig',function(config){
+	server=config.remote_url;
+})
 
 var features_service_url= '/mock/features.json';
 //var categories_service_url= '/mock/categories.json';

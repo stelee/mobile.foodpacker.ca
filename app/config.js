@@ -11,7 +11,8 @@ exports.appConfig=
 		["About","/about"]
 	],
 	login: "/login",
-	appPath: "index.html"
+	appPath: "index.html",
+	remote_url: 'http://localhost:9000/opencart/'
 }
 
 //configuration of the router

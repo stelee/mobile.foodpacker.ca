@@ -60,5 +60,6 @@ exports.map={
 	"Please try again later or contact us" : "请重试或者联系我们",
 	"Estimated Shipment Fee" : "预计送货费",
 	"Can't get the value now": "暂时无法从服务器获得送货费信息",
-	"It will be around" : "大概将是"
+	"It will be around" : "大概将是",
+	"Creditcard failed" : "信用卡交易失败"
 }

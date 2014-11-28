@@ -144,7 +144,13 @@ Cart.prototype.render_checkout=function()
 						notifier.success(_l("Place order successfully"));
 						window.location.href="#!/"
 					},function(err){
-						notifier.error(_l("Error happend","Please try again later or contact us"));
+						if(err.error===true && err.msg.indexOf("Credit Card")>=0)
+						{
+							notifier.error(_l("Creditcard failed","Please try again later or contact us"));
+						}else
+						{
+							notifier.error(_l("Error happend","Please try again later or contact us"));
+						}
 					})
 				}else
 				{
